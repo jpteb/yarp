@@ -10,7 +10,7 @@
 
     tfmt.url = "github:numtide/treefmt-nix";
     tfmt.inputs.nixpkgs.follows = "nixpkgs";
-    pch.url = "github:cachix/pre-commit-hooks.nix";
+    pch.url = "github:cachix/git-hooks.nix";
     pch.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -51,8 +51,12 @@
           formatter = config.treefmt.build.wrapper;
 
           pre-commit.settings = {
-            hooks.rustfmt.enable = true;
-            hooks.nixfmt.enable = true;
+            hooks.treefmt.enable = true;
+            hooks.clippy = {
+              enable = true;
+              # Something for the future
+              # settings.denyWarnings = true;
+            };
           };
 
           # export the crate devshell as the default devshell

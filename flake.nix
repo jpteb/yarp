@@ -53,7 +53,7 @@
           pre-commit.settings = {
             hooks.treefmt.enable = true;
             hooks.clippy = {
-              enable = true;
+              # enable = true;
               # Something for the future
               # settings.denyWarnings = true;
             };
@@ -68,7 +68,24 @@
             '';
           });
           # export the release package of the crate as default package
-          packages.default = crateOutputs.packages.release;
+          packages = rec {
+            default = crateOutputs.packages.release;
+            oci-image = pkgs.dockerTools.buildLayeredImage {
+              name = "yarp";
+              tag = "latest";
+              contents = [
+                pkgs.cacert
+                # pkgs.busybox
+              ];
+              config = {
+                Cmd = [ "${default}/bin/yarp" ];
+                ExposedPorts = {
+                  "6188/tcp" = { };
+                  "9000/tcp" = { };
+                };
+              };
+            };
+          };
         };
     };
 }

@@ -3,3 +3,11 @@ name = "yarp"
 version = "0.1.0"
 edition = "2024"
 license = "MIT OR APACHE-2.0"
+
+[dependencies]
+async-trait = "0.1.89"
+metrics = "0.24.3"
+metrics-exporter-prometheus = "0.18.1"
+pingora = { version = "0.8.0", features = ["lb", "openssl", "proxy"] }
+tokio = { version = "1.50.0", features = ["full", "tracing"] }
+tracing = "0.1.44"

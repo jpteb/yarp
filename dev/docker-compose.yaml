@@ -1,0 +1,16 @@
+services:
+  yarp:
+    image: yarp:latest
+    ports:
+      - "6188:6188"
+      - "9000:9000"
+
+  observability:
+    image: grafana/otel-lgtm
+    ports:
+      - "3000:3000"   # Grafana UI
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+      - "9090:9090"   # Prometheus (optional, for direct access)
+    volumes:
+      - ./prometheus.yaml:/otel-lgtm/prometheus.yaml
